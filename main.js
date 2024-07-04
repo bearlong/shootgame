@@ -9,10 +9,13 @@ let canShoot = true;
 let canShootTime = 120;
 let hp = 3;
 let gameOverFlag = false;
+let level = 500;
+let intervalId;
 
 gameLoop();
 setEnemy();
-setInterval(setEnemy, 500);
+setInterval(setEnemy, level);
+intervalId = setInterval(setEnemy, level);
 
 $(window)
   .on("keydown", function (e) {
@@ -23,6 +26,9 @@ $(window)
   });
 
 function gameLoop() {
+  if (score % 10 === 0 && score > 0) {
+    $(".level").addClass("active");
+  }
   if (keysPressed[37]) {
     x -= 10;
     if (x <= -570) x = -570;
@@ -168,6 +174,17 @@ function isOverLap($div1, $div2) {
   } else {
     return false;
   }
+}
+$(".level").on("animationend", (e) => {
+  $(".level").removeClass("active");
+  level -= 50;
+  updateInterval();
+});
+
+function updateInterval() {
+  clearInterval(intervalId);
+  console.log(level);
+  setInterval(setEnemy, level);
 }
 
 function gameover() {

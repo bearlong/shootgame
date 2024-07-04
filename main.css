@@ -5,6 +5,7 @@ body {
   display: flex;
   justify-content: center;
   height: 100%;
+  gap: 2       0px;
 }
 .game {
   position: relative;
@@ -38,6 +39,26 @@ body {
   margin: auto;
 }
 
+.level {
+  position: absolute;
+  top: calc(50% - 100px);
+  left: calc(50% - 100px);;
+  width: 200px;
+  height: 200px;
+  opacity: 0;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  &.active {
+    animation-name: levelUp;
+    animation-duration: 1s;
+    animation-iteration-count: 2;
+  animation-fill-mode: forwards;
+  }
+}
+
 .planeE {
   position: absolute;
   top: -60px;
@@ -68,6 +89,19 @@ body {
 
 .score {
   font-family: "Orbitron", sans-serif;
+  width: 200px;
+}
+
+@keyframes levelUp {
+  0% {
+    opacity: 0;
+  }
+  50%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+  }
 }
 
 @keyframes exploAni {
