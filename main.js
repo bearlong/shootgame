@@ -9,12 +9,11 @@ let canShoot = true;
 let canShootTime = 120;
 let hp = 3;
 let gameOverFlag = false;
-let level = 500;
+let level = 1000;
 let intervalId;
 
 gameLoop();
-setEnemy();
-setInterval(setEnemy, level);
+// setEnemy();
 intervalId = setInterval(setEnemy, level);
 
 $(window)
@@ -26,7 +25,7 @@ $(window)
   });
 
 function gameLoop() {
-  if (score % 10 === 0 && score > 0) {
+  if (score % 10 === 0 && score > 0 && level >= 300) {
     $(".level").addClass("active");
   }
   if (keysPressed[37]) {
@@ -177,14 +176,15 @@ function isOverLap($div1, $div2) {
 }
 $(".level").on("animationend", (e) => {
   $(".level").removeClass("active");
-  level -= 50;
+  level -= 20;
   updateInterval();
 });
 
 function updateInterval() {
-  clearInterval(intervalId);
-  console.log(level);
-  setInterval(setEnemy, level);
+  if (intervalId) {
+    clearInterval(intervalId); // 清除之前的 interval
+  }
+  intervalId = setInterval(setEnemy, level);
 }
 
 function gameover() {
