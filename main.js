@@ -11,6 +11,11 @@ let hp = 3;
 let gameOverFlag = false;
 let level = 1000;
 let intervalId;
+let soundObj = {
+  shoot: "./sounds/shoot.mp3",
+  explo: "./sounds/explo.mp3",
+  levelUp: "./sounds/levelUp.mp3",
+};
 
 gameLoop();
 // setEnemy();
@@ -60,6 +65,7 @@ function gameLoop() {
       $(".game").append(bt);
       $(".game .bullet" + bn).css("left", x);
       $(".game .bullet" + bn).css("bottom", y);
+      playSound("shoot");
       $(".game .bullet" + bn)
         .css("left", x)
         .animate(
@@ -80,6 +86,7 @@ function gameLoop() {
                   $bullet.remove();
                   hp--;
                   if (elm.classList.contains(0)) {
+                    playSound("explo");
                     $enemy.remove();
                     score++;
                     explo++;
@@ -174,6 +181,12 @@ function isOverLap($div1, $div2) {
     return false;
   }
 }
+
+$(".level").on("animationstart", (e) => {
+  playSound("levelUp");
+  console.log("play");
+});
+
 $(".level").on("animationend", (e) => {
   $(".level").removeClass("active");
   level -= 20;
@@ -190,4 +203,12 @@ function updateInterval() {
 function gameover() {
   alert("Game Over!");
   location.reload();
+}
+
+function playSound(key) {
+  let sound = new Audio(soundObj[key]);
+  sound.addEventListener("ended", (e) => {
+    e.target = null;
+  });
+  sound.play();
 }
